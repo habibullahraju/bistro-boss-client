@@ -1,14 +1,55 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {useContext} from "react";
+import {Link} from "react-router-dom";
+import {AuthContext} from "../../../Providers/AuthProvider";
+import { FaBeer, FaShoppingCart } from 'react-icons/fa';
+import useCart from "../../../hooks/useCart";
 
 const NavBar = () => {
-    const navOptions = <>
-        
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/menu">Our Menu</Link></li>
-        <li><Link to="/order/soup">Order Food</Link></li>
-        
+  const {user, logOut} = useContext(AuthContext);
+  const [cart] = useCart()
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
+  const navOptions = (
+    <>
+      <li>
+        <Link to="/">Home</Link>
+      </li>
+      <li>
+        <Link to="/menu">Our Menu</Link>
+      </li>
+      <li>
+        <Link to="/order/soup">Order Food</Link>
+      </li>
+      <li>
+        <Link to="/secret">Secret</Link>
+      </li>
+      <li>
+        <Link to="/dashboard/mycart" className="pl-0">
+          <div className="indicator">
+            <span className="indicator-item badge badge-secondary">+{cart.length}</span>
+            <button className=""><FaShoppingCart className="w-16 " /></button>
+          </div>
+        </Link>
+      </li>
+
+      {user ? (
+        <>
+          <button onClick={handleLogOut} className="btn btn-ghost">
+            LogOut
+          </button>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        </>
+      )}
     </>
+  );
   return (
     <div>
       <div className="navbar fixed z-10 bg-opacity-30 text-white bg-black">
@@ -34,17 +75,13 @@ const NavBar = () => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-                {navOptions}
+              {navOptions}
             </ul>
           </div>
           <a className="btn  btn-ghost normal-case text-xl">Bistro Boss </a>
-          
-
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-           {navOptions}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navOptions}</ul>
         </div>
         <div className="navbar-end">
           <a className="btn">Get started</a>

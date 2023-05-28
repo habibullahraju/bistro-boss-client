@@ -18,7 +18,6 @@ const PopularMenu = () => {
 //         setMenu(popularItems);
 //       });
 //   }, []);
-  console.log(menu);
   return (
     <section>
       <section>

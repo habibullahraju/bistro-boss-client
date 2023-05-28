@@ -19,7 +19,6 @@ const Testimonials = () => {
         setReviews(data);
       });
   }, []);
-  console.log(reviews);
   return (
     <section className="mb-12 ">
       <SectionTitle
